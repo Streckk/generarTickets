@@ -40,7 +40,17 @@ function buildTicketFromMsgStruct(doc, ticketNumber) {
     : new Date();
   const emailFrom = doc?.from?.email ? String(doc.from.email).trim() : "";
   const nameFrom = doc?.from?.name ? String(doc.from.name).trim() : "";
-  const mailboxTo = doc?.to?.name ? String(doc.to.name).trim() : "";
+  const toRecipients = Array.isArray(doc?.to)
+    ? doc.to
+    : doc?.to
+      ? [doc.to]
+      : [];
+  const mailboxEmail = toRecipients
+    .map((recipient) =>
+      recipient?.email ? String(recipient.email).trim() : "",
+    )
+    .find(Boolean);
+  const mailboxTo = mailboxEmail || "";
   const subject = doc?.subject ? String(doc.subject) : "";
   const statusFromMsg = doc?.Estatus ? String(doc.Estatus).trim() : "";
   const categoryFromMsg = doc?.Categoria ? String(doc.Categoria).trim() : "";
