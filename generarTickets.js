@@ -40,6 +40,7 @@ function buildTicketFromMsgStruct(doc, ticketNumber) {
     : new Date();
   const emailFrom = doc?.from?.email ? String(doc.from.email).trim() : "";
   const nameFrom = doc?.from?.name ? String(doc.from.name).trim() : "";
+  const mailboxTo = doc?.to?.name ? String(doc.to.name).trim() : "";
   const subject = doc?.subject ? String(doc.subject) : "";
   const statusFromMsg = doc?.Estatus ? String(doc.Estatus).trim() : "";
   const categoryFromMsg = doc?.Categoria ? String(doc.Categoria).trim() : "";
@@ -79,6 +80,7 @@ function buildTicketFromMsgStruct(doc, ticketNumber) {
     ots_type: "externo",
     ots_user_create: emailFrom || "script",
     ots_name_client: nameFrom || "Sin nombre",
+    ots_mailbox: mailboxTo,
     ots_email_from: emailFrom || "sin-correo",
     ots_email_subject: subject,
     ots_who_close: "",
@@ -92,6 +94,7 @@ function buildTicketFromMsgStruct(doc, ticketNumber) {
     ots_source: "correo",
     ots_sla_minutes: 0,
     ots_is_closed: false,
+    ots_is_legacy: true,
   };
 }
 
@@ -117,6 +120,7 @@ async function main() {
     _id: 1,
     date_creation: 1,
     from: 1,
+    to: 1,
     subject: 1,
     conversation: 1,
     num_caso: 1,
